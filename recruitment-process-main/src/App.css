@@ -1,0 +1,94 @@
+.App {
+  text-align: center;
+  padding: 20px;
+  background-color: aliceblue;
+  min-height: 100vh;
+}
+
+.App-logo {
+  pointer-events: none;
+  position: fixed;
+  right: 10px;
+  max-width: 100px;
+}
+
+.App-logo-react, .App-logo-nodejs {
+  height: 3rem;
+}
+
+.App-header {
+  min-height: 10vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: black;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+button {
+  border-radius: 5px;
+  background-color: darkblue;
+  font-weight: bold;
+  color: white;
+}
+
+.cancel-button {
+  background-color: red;
+  margin-right: 10px;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.title {
+  margin-right: 10px;
+}
+
+.university-card {
+  position: relative;
+  margin: auto;
+  width: 350px;
+  padding: 10px 10px 20px 10px;
+  border: 1px solid #BFBFBF;
+  background-color: white;
+  box-shadow: 10px 10px 5px #aaaaaa;
+}
+
+.close-button {
+  cursor: pointer;
+  position: absolute;
+  right: 10px;
+  top: 5px;
+  color: red;
+}
+
+.search-button {
+  background-color: lightgreen;
+}
+
+.write-review {
+  width: 90%;
+  min-height: 150px;
+}
+
+.review-buttons {
+  padding: 10px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.search-bar {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  width: 60%;
+}
