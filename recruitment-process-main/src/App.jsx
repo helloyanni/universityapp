@@ -16,14 +16,22 @@ const App = () => {
   const [openModal, setOpenModal] = useState(false);
   const [selectedUniversity, setSelectedUniversity] = useState(null);
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const getCountries = async () => {
     setCountries(countryData);
   };
 
   const getUniversities = async (query) => {
+    setIsLoading(true);
+
     fetch(`${uniApiUrl}${encodeURIComponent(query)}`)
       .then((response) => response.json())
-      .then((data) => setUniversities(data));
+      .then((data) => {      
+        setUniversities(data)
+        setIsLoading(false)
+        
+      });
   };
 
   useEffect(() => {
@@ -104,16 +112,24 @@ const App = () => {
         </p>
         )}
       </section>
-      <section>
-        {openModal && selectedUniversity && (
-          <UniversityCard university={selectedUniversity} closeModal={closeModal} />
-        )}
-      </section>
-      <section>
-        {universities.length > 0 && !openModal && (
-          <Table universities={universities} selectUniversity={selectUniversity} />
-        )}
-      </section>
+      {isLoading ? (
+          <p>Loading...</p>
+        ):
+        (
+          <>
+            <section>
+              {openModal && selectedUniversity && (
+                <UniversityCard university={selectedUniversity} closeModal={closeModal} />
+              )}
+            </section>
+            <section>
+              {universities.length > 0 && !openModal && (
+                <Table universities={universities} selectUniversity={selectUniversity} />
+              )}
+            </section>
+          </>
+        )
+      }
     </div>
   );
 };
