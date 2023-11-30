@@ -7,7 +7,7 @@ import './App.css';
 import Table from './components/Table';
 import UniversityCard from './components/UniversityCard';
 
-import { uniApiUrl, countryData } from './CONSTANTS';
+import { uniApiUrl, countryData, countryApiUrl } from './CONSTANTS';
 
 const App = () => {
   const [countries, setCountries] = useState([]);
@@ -20,7 +20,11 @@ const App = () => {
   const [userSearchHistory, setUserSearchHistory] = useState([]);
 
   const getCountries = async () => {
-    setCountries(countryData);
+      fetch(`${countryApiUrl}`)
+        .then((response) => response.json())
+        .then((countries) => {
+          setCountries(countries);
+        })
   };
 
   const getUniversities = async (query) => {
