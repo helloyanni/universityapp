@@ -17,6 +17,7 @@ const App = () => {
   const [selectedUniversity, setSelectedUniversity] = useState(null);
 
   const [isLoading, setIsLoading] = useState(false);
+  const [dropdownSelection, setDropDownSelection] = useState("");
 
   const getCountries = async () => {
     setCountries(countryData);
@@ -30,7 +31,7 @@ const App = () => {
       .then((data) => {      
         setUniversities(data)
         setIsLoading(false)
-        
+
       });
   };
 
@@ -79,6 +80,7 @@ const App = () => {
             className="search-button"
             type="button"
             id="button-addon2"
+            disabled={country != ""? false : true}
             onClick={search}
           >
             Search
