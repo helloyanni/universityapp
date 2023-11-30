@@ -17,7 +17,7 @@ const App = () => {
   const [selectedUniversity, setSelectedUniversity] = useState(null);
 
   const [isLoading, setIsLoading] = useState(false);
-  const [dropdownSelection, setDropDownSelection] = useState("");
+  const [userSearchHistory, setUserSearchHistory] = useState([]);
 
   const getCountries = async () => {
     setCountries(countryData);
@@ -42,6 +42,8 @@ const App = () => {
   const search = (e) => {
     e.preventDefault();
     getUniversities(country);
+    setUserSearchHistory([...userSearchHistory, country]);
+    console.log(userSearchHistory);
   };
 
   const onCountryChange = (e) => setCountry(e.target.value);
@@ -97,7 +99,18 @@ const App = () => {
             ))}
           </datalist>
         </div>
-
+        <div>
+          {userSearchHistory.map((content, index)=> {
+              return (
+                <div key={index}>
+                  <ul>
+                    <li>{content}</li>
+                  </ul>
+                </div>
+              )
+          })}
+        </div>
+        <hr/>
         <p>
           Total number of countries:
           {' '}
