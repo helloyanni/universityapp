@@ -1,5 +1,6 @@
 export const countryApiUrl = 'https://restcountries.com/v3.1/all?fields=name';
 export const uniApiUrl = 'http://universities.hipolabs.com/search?country=';
+export const universityApiReviewsURL = 'http://localhost:3001/universities/reviews/';//:unversityName
 
 export const countryData = [
   {

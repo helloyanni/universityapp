@@ -30,7 +30,7 @@ const App = () => {
   const getUniversities = async (query) => {
     setIsLoading(true);
 
-    fetch(`${uniApiUrl}${encodeURIComponent(query)}`)
+    fetch(`${uniApiUrl}${query}`)
       .then((response) => response.json())
       .then((data) => {      
         setUniversities(data)

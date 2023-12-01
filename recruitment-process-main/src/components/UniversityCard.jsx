@@ -1,18 +1,51 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { universityApiReviewsURL } from '../CONSTANTS';
 
 const UniversityCard = ({ university, closeModal }) => {
   const { name, web_pages: webPages, country } = university;
   const [writeReview, setWriteReview] = useState(false);
   const [reviewContent, setReviewContent] = useState("");
+  const [allReviews, setAllReviews] = useState({});
 
   const handleReview = () => {
     setWriteReview(!writeReview);
   };
 
+  const getReviews = () => {
+    fetch(`${universityApiReviewsURL}${name}`)
+      .then((response) => response.json())
+      .then((data) => {      
+          setAllReviews(data);
+          console.log(allReviews)
+      });
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(reviewContent.trim());
+
+    let newReview = {
+      universityName: name,
+      review: [reviewContent.trim()]
+    }
+
+    console.log(newReview)
+    fetch(`${universityApiReviewsURL}${name}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body:JSON.stringify(newReview),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data.message)
+        newReview = {};
+      })
   }
+
+  useEffect(()=> {
+    getReviews();
+  },[allReviews]);
 
   return (
     <div className="university-card">
