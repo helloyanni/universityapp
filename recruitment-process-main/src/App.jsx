@@ -7,7 +7,7 @@ import './App.css';
 import Table from './components/Table';
 import UniversityCard from './components/UniversityCard';
 
-import { uniApiUrl, countryData } from './CONSTANTS';
+import { uniApiUrl, countryData, countryApiUrl } from './CONSTANTS';
 
 const App = () => {
   const [countries, setCountries] = useState([]);
@@ -16,14 +16,27 @@ const App = () => {
   const [openModal, setOpenModal] = useState(false);
   const [selectedUniversity, setSelectedUniversity] = useState(null);
 
+  const [isLoading, setIsLoading] = useState(false);
+  const [userSearchHistory, setUserSearchHistory] = useState([]);
+
   const getCountries = async () => {
-    setCountries(countryData);
+      fetch(`${countryApiUrl}`)
+        .then((response) => response.json())
+        .then((countries) => {
+          setCountries(countries);
+        })
   };
 
   const getUniversities = async (query) => {
-    fetch(`${uniApiUrl}${encodeURIComponent(query)}`)
+    setIsLoading(true);
+
+    fetch(`${uniApiUrl}${query}`)
       .then((response) => response.json())
-      .then((data) => setUniversities(data));
+      .then((data) => {      
+        setUniversities(data)
+        setIsLoading(false)
+
+      });
   };
 
   useEffect(() => {
@@ -33,6 +46,8 @@ const App = () => {
   const search = (e) => {
     e.preventDefault();
     getUniversities(country);
+    setUserSearchHistory([...userSearchHistory, country]);
+    console.log(userSearchHistory);
   };
 
   const onCountryChange = (e) => setCountry(e.target.value);
@@ -71,6 +86,7 @@ const App = () => {
             className="search-button"
             type="button"
             id="button-addon2"
+            disabled={country != ""? false : true}
             onClick={search}
           >
             Search
@@ -87,7 +103,18 @@ const App = () => {
             ))}
           </datalist>
         </div>
-
+        <div>
+          {userSearchHistory.map((content, index)=> {
+              return (
+                <div key={index}>
+                  <ul>
+                    <li>{content}</li>
+                  </ul>
+                </div>
+              )
+          })}
+        </div>
+        <hr/>
         <p>
           Total number of countries:
           {' '}
@@ -104,16 +131,24 @@ const App = () => {
         </p>
         )}
       </section>
-      <section>
-        {openModal && selectedUniversity && (
-          <UniversityCard university={selectedUniversity} closeModal={closeModal} />
-        )}
-      </section>
-      <section>
-        {universities.length > 0 && !openModal && (
-          <Table universities={universities} selectUniversity={selectUniversity} />
-        )}
-      </section>
+      {isLoading ? (
+          <p>Loading...</p>
+        ):
+        (
+          <>
+            <section>
+              {openModal && selectedUniversity && (
+                <UniversityCard university={selectedUniversity} closeModal={closeModal} />
+              )}
+            </section>
+            <section>
+              {universities.length > 0 && !openModal && (
+                <Table universities={universities} selectUniversity={selectUniversity} />
+              )}
+            </section>
+          </>
+        )
+      }
     </div>
   );
 };
